@@ -1,0 +1,41 @@
+<h1 matDialogTitle>Editar Lugar de Trabajo</h1>
+<mat-dialog-content [formGroup]="lugarTrabajoForm" (ngSubmit)="onSaveLugarTrabajo()"  *ngIf="lugarTrabajoForm">
+  <div formArrayName="lugarTrabajo" *ngFor="let lugarTrabajo of lugaresTrabajoArray.controls; let i=index">
+    <mat-card>
+      <mat-card-content>
+        <div [formGroupName]="i">
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label for="nombre">Lugar de Trabajo</mat-label>
+              <input matInput placeholder="Lugar de Trabajo" type="text" [formControlName]="'nombre'">
+              <mat-error *ngIf="lugaresTrabajoArray.controls[i].get('nombre')?.hasError('required')">Este campo es <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label for="sector">Sector</mat-label>
+              <mat-select [formControlName]="'sector'">
+                <mat-option value="P">Público</mat-option>
+                <mat-option value="R">Privado</mat-option>
+              </mat-select>
+              <mat-error *ngIf="lugaresTrabajoArray.controls[i].get('sector')?.hasError('required')">Este campo es <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions *ngIf="!data">
+        <button mat-raised-button color="warn" (click)="removeLugarTrabajo(i)">
+          Elimina
+        </button>
+        <button mat-raised-button color="principal" (click)="addLugarTrabajo()">
+          Nuevo
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</mat-dialog-content>
+<div mat-dialog-actions class="d-flex justify-content-center" *ngIf="lugarTrabajoForm">
+  <button mat-raised-button color="warn" matDialogClose>Cancelar</button>
+  <button mat-raised-button color="accent" type="submit" [disabled]="lugarTrabajoForm.invalid || lugarTrabajoForm.pristine" (click)="onSaveLugarTrabajo()">Guardar</button>
+</div>

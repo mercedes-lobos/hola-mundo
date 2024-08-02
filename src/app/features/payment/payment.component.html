@@ -1,0 +1,90 @@
+<div class="main-content">
+  <div class="container-md-12">
+    <div class="row">
+      <div class="col-md-12 p-5">
+        <mat-toolbar color="accent">
+          <span>Registro de Pagos</span>
+          <span fxFlex></span>
+          <button  mat-button [matMenuTriggerFor]="datosBancarios" mat-raised-button color="primary" style="margin-right: 12px;">Datos bancarios</button>
+          <mat-menu #datosBancarios="matMenu">
+            <button mat-menu-item (click)="openDatosDialog()">Banco Nación</button>
+            <button mat-menu-item (click)="openDatosGDialog()">Banco Galicia</button>
+          </mat-menu>
+          <button mat-raised-button color="primary" (click)="openRegistroPagoDialog()">Nuevo</button>
+        </mat-toolbar>
+        <mat-card>
+          <div class="mat-elevation-z8">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoadingResults"></mat-progress-bar>
+            <table mat-table [dataSource]="registrosPago">
+
+              <!-- Position Column -->
+              <ng-container matColumnDef="fecha_registro">
+                <th mat-header-cell *matHeaderCellDef> Fecha registro </th>
+                <td mat-cell *matCellDef="let element"> {{element.fecha_registro | date : 'dd-MM-yyyy'}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="periodo">
+                <th mat-header-cell *matHeaderCellDef> Periodo </th>
+                <td mat-cell *matCellDef="let element"> {{element.periodo.periodo}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="concepto">
+                <th mat-header-cell *matHeaderCellDef> Concepto </th>
+                <td mat-cell *matCellDef="let element"> {{element.concepto.tipo}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="mes_pago">
+                <th mat-header-cell *matHeaderCellDef> Mes de Pago </th>
+                <td mat-cell *matCellDef="let element"> {{ getMesPago(element.mes_pago)}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="monto">
+                <th mat-header-cell *matHeaderCellDef> Monto </th>
+                <td mat-cell *matCellDef="let element"> {{element.concepto.costo}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="estado_pago">
+                <th mat-header-cell *matHeaderCellDef> Estado pago </th>
+                <td mat-cell *matCellDef="let element">
+                  <ng-container
+                    [ngTemplateOutlet]="element.estado_pago == 'PENDIENTE' ? estadoPendiente : element.estado_pago == 'PAGADO' ? estadoPagado: estadoAnulado"
+                    [ngTemplateOutletContext]="{element:element}">
+                  </ng-container>
+                </td>
+                <ng-template #estadoPendiente let-element='element'>
+                  <mat-chip style="background-color: #ffc107; font-size: 12px;">{{element.estado_pago}}</mat-chip>
+                </ng-template>
+
+                <ng-template #estadoPagado let-element='element'>
+                  <mat-chip style="background-color: #198754; font-size: 12px;--mdc-chip-label-text-color:white;">{{element.estado_pago}}</mat-chip>
+                </ng-template>
+
+                <ng-template #estadoAnulado let-element='element'>
+                  <mat-chip style="background-color: #dc3545; font-size: 12px;--mdc-chip-label-text-color:white;">{{element.estado_pago}}</mat-chip>
+                </ng-template>
+              </ng-container>
+
+              <!--Acciones Column-->
+              <ng-container matColumnDef="action">
+                <th style="width:15%" mat-header-cell *matHeaderCellDef>Acciones</th>
+                <td mat-cell *matCellDef="let row;let i = index">
+                  <button mat-icon-button (click)="deleteRow('registrosPago', i)" [disabled]="row?.estado_pago != 'PENDIENTE'">
+                    <mat-icon color="warn">delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator #paginator [length]="resultsLength" [pageIndex]="paginator.pageIndex" [pageSize]="paginator.pageSize"
+               [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page">
+            </mat-paginator>
+
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

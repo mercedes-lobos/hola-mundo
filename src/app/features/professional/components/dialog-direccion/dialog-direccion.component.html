@@ -1,0 +1,116 @@
+<h1 matDialogTitle>Editar Dirección</h1>
+<mat-dialog-content [formGroup]="direccionForm" (ngSubmit)="onSaveDireccion()" *ngIf="direccionForm">
+  <div formArrayName="direccion" *ngFor="let direccion of direccionesArray.controls; let i=index">
+    <mat-card>
+      <mat-card-content>
+        <div [formGroupName]="i">
+          <div class="row">
+            <mat-radio-group class="col-md-12" aria-label="Tipo de Domicilio" [formControlName]="'tipo_direccion'">
+              <mat-radio-button value="P">Particular</mat-radio-button>
+              <mat-radio-button value="L">Laboral</mat-radio-button>
+              <mat-error
+                *ngIf="direccionesArray.controls[i].get('tipo_direccion')?.touched && direccionesArray.controls[i].get('tipo_direccion')?.hasError('required')">Este
+                campo
+                es <strong>requerido.</strong></mat-error>
+            </mat-radio-group>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label for="calle">Calle</mat-label>
+              <input matInput placeholder="Calle" type="text" [formControlName]="'calle'">
+              <mat-error *ngIf="direccionesArray.controls[i].get('calle')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-4">
+              <mat-label for="numero">Número</mat-label>
+              <input matInput placeholder="Número" type="number" [formControlName]="'numero'">
+              <mat-error *ngIf="direccionesArray.controls[i].get('numero')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-md-4">
+              <mat-label for="piso">Piso</mat-label>
+              <input matInput placeholder="Piso" type="text" [formControlName]="'piso'">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-md-4">
+              <mat-label for="numero_departamento">N° de Departamento</mat-label>
+              <input matInput placeholder="N° de Departamento" type="text" [formControlName]="'numero_departamento'">
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label for="pais">País</mat-label>
+              <input id="pais" type="text" placeholder="País" matInput [matAutocomplete]="pais"
+                [formControlName]="'pais'">
+              <mat-autocomplete #pais="matAutocomplete" (optionSelected)="updatePaisId(i, $event)">
+                <mat-option *ngFor="let pais of filteredPais[i] | async" [value]="pais.nombre">
+                  {{pais.nombre}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="direccionesArray.controls[i].get('pais')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label for="provincia">Provincia</mat-label>
+              <input id="provincia" type="text" placeholder="Provincia" matInput [matAutocomplete]="provincia"
+                [formControlName]="'provincia'">
+              <mat-autocomplete #provincia="matAutocomplete" (optionSelected)="updateProvinciaId(i, $event)">
+                <mat-option *ngFor="let provincia of filteredProvincia[i] | async" [value]="provincia.iso_nombre">
+                  {{provincia.iso_nombre}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label for="departamento">Departamento</mat-label>
+              <input id="departamento" type="text" placeholder="Departamento" matInput [matAutocomplete]="departamento"
+                [formControlName]="'departamento'">
+              <mat-autocomplete #departamento="matAutocomplete" (optionSelected)="updateDepartamentoId(i, $event)">
+                <mat-option *ngFor="let departamento of filteredDepartamento[i] | async" [value]="departamento.nombre">
+                  {{departamento.nombre}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="direccionesArray.controls[i].get('departamento')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label for="localidad">Localidad</mat-label>
+              <input matInput placeholder="Localidad" type="text" [formControlName]="'localidad'">
+              <mat-error *ngIf="direccionesArray.controls[i].get('localidad')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label for="codigo_postal">Cód. Postal</mat-label>
+              <input matInput placeholder="Código Postal" type="text" [formControlName]="'codigo_postal'">
+              <mat-error *ngIf="direccionesArray.controls[i].get('codigo_postal')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions *ngIf="!data">
+        <button mat-raised-button color="warn" (click)="removeDireccion(i)">
+          Elimina
+        </button>
+        <button mat-raised-button color="principal" (click)="addDireccion()">
+          Nuevo
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</mat-dialog-content>
+<div mat-dialog-actions class="d-flex justify-content-end" *ngIf="direccionForm">
+  <button mat-raised-button color="warn" matDialogClose>Cancelar</button>
+  <button mat-raised-button color="accent" type="submit" [disabled]="direccionForm.invalid || direccionForm.pristine"
+    (click)="onSaveDireccion()">Guardar</button>
+</div>

@@ -1,0 +1,104 @@
+<!-- ============================================================== -->
+<!-- Main wrapper - style you can find in pages.scss -->
+<!-- ============================================================== -->
+<div class="main-container" *ngIf="isLoggedIn; else loggedOut">
+  <!-- ============================================================== -->
+  <!-- Topbar - style you can find in header.scss -->
+  <!-- ============================================================== -->
+  <mat-toolbar color="primary" class="topbar telative">
+    <!-- ============================================================== -->
+    <!-- sidebar toggle -->
+    <!-- ============================================================== -->
+    <button mat-icon-button (click)="snav.toggle()" value="sidebarclosed">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <!-- ============================================================== -->
+    <!-- Logo - style you can find in header.scss -->
+    <!-- ============================================================== -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html">
+        <!-- Logo icon -->
+        <b>
+          <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+          <!-- Dark Logo icon -->
+          <!-- <img src="assets/images/logo-icon.png" alt="homepage" class="dark-logo"> -->
+          <!-- Light Logo icon -->
+          <img src="assets/images/logo/logo_consejo_medico.png" alt="homepage" class="light-logo">
+        </b>
+        <!--End Logo icon -->
+        <!-- Logo text -->
+        <span fxShow="false" fxShow.gt-xs>
+          <!-- dark Logo text -->
+          <!-- <img src="assets/images/logo-text.png" alt="homepage" class="dark-logo"> -->
+          <!-- Light Logo text -->
+          <img src="assets/images/logo/logo_text_consejo_medico.png" class="light-logo" alt="homepage">
+        </span> </a>
+    </div>
+
+    <span fxFlex></span>
+    <!-- ============================================================== -->
+    <!-- app header component - style you can find in header.scss / header.component.ts-->
+    <!-- ============================================================== -->
+    <app-header></app-header>
+  </mat-toolbar>
+  <!-- ============================================================== -->
+  <!-- End Topbar - style you can find in pages.scss -->
+  <!-- ============================================================== -->
+  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0" >
+    <!-- ============================================================== -->
+    <!-- Sidebar - style you can find in sidebar.scss -->
+    <!-- ============================================================== -->
+    <mat-sidenav #snav id="snav" class="dark-sidebar pl-xs" [mode]="mobileQuery.matches ? 'side' : 'over'"
+      fixedTopGap="0" [opened]="mobileQuery.matches" [disableClose]="mobileQuery.matches" >
+    <!-- ============================================================== -->
+    <!-- Sidebar - style you can find in sidebar.scss -->
+    <!-- ============================================================== -->
+      <app-sidebar></app-sidebar>
+    </mat-sidenav>
+
+
+    <!-- ============================================================== -->
+    <!-- Page container - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <mat-sidenav-content class="page-wrapper">
+
+      <div class="page-content">
+
+        <router-outlet><app-spinner></app-spinner></router-outlet>
+
+      </div>
+
+    </mat-sidenav-content>
+    <!-- ============================================================== -->
+    <!-- Page container - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+  </mat-sidenav-container>
+</div>
+
+
+<ng-template #loggedOut>
+  <mat-sidenav-container class="example-sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 0 : 0">
+    <mat-sidenav-content class="page-wrapper">
+      <div class="page-content page-content-home d-flex flex-column justify-content-center align-items-center flex-lg-row min-vw-100">
+        <div class="jumbotron content-home bg-transparent w-75">
+          <img src="assets/images/logo/logo_consejo_medico_home.png" alt="homepage" class="image-logo light-logo">
+          <h1 class="display-6 text-center">
+            Bienvenidos al Sistema de Gestión Digital
+            <br>
+            del Consejo de Médicos
+            <br>
+            de la Provincia de La Rioja
+          </h1>
+          <hr class="mt-4 mb-5 w-50">
+          <!-- TODO Eliminar luego de pruebas -->
+          <!-- <div class="d-flex justify-content-center">
+            <p class="lead">
+              <a class="btn btn-primary btn-lg align-self-center" href="/auth/login" role="button">Ingresar</a>
+            </p>
+          </div> -->
+        </div>
+        <router-outlet><app-spinner></app-spinner></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-template>

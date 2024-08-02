@@ -1,0 +1,36 @@
+<div class="main-content">
+  <div class="container-md">
+    <div class="row">
+      <div class="col-md-12 p-5">
+        <mat-toolbar color="accent">
+          <span>Mi cuenta</span>
+        </mat-toolbar>
+        <mat-card>
+          <mat-card-content class="d-flex flex-column mx-4 my-2" style="gap: 12px;">
+            <div class="row">
+                <b class="mr-2">Número de cuenta:</b> {{ numeroCuenta }}
+            </div>
+
+            <div class="row align-items-center">
+              <ng-container [ngTemplateOutlet]="estadoCuenta == 'AL DIA' ? estadoAlDia : estadoCuenta == 'EN MORA' ? estadoEnMora: estadoRegular">
+              <b class="mr-2">Estado de cuenta:</b></ng-container>
+              <ng-template #estadoAlDia>
+                <mat-chip style="background-color: #198754; font-size: 12px;--mdc-chip-label-text-color:white;">{{estadoCuenta}}</mat-chip>
+              </ng-template>
+              <ng-template #estadoRegular>
+                <mat-chip style="background-color: #ffc107; font-size: 12px;">{{estadoCuenta}}</mat-chip>
+              </ng-template>
+              <ng-template #estadoEnMora>
+                <mat-chip style="background-color: #dc3545; font-size: 12px;--mdc-chip-label-text-color:white;">{{estadoCuenta}}</mat-chip>
+              </ng-template>
+            </div>
+
+            <div class="row" *ngIf="estadoCuenta !== 'AL DIA'">
+              <b class="mr-2">Saldo de deuda:</b> {{ saldoCuenta }}
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+</div>

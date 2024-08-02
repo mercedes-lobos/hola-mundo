@@ -1,0 +1,74 @@
+<h1 matDialogTitle>Editar Cursos</h1>
+<mat-dialog-content class="mat-typography" [formGroup]="cursoForm" (ngSubmit)="onSaveCursos()" novalidate>
+  <div formArrayName="curso" *ngFor="let curso of cursosArray.controls ; let i=index">
+    <mat-card>
+      <mat-card-content>
+        <div [formGroupName]="i">
+
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label for="nombre">Nombre de Capacitación</mat-label>
+              <input matInput placeholder="Nombre Capacitación" type="text" [formControlName]="'nombre'" />
+              <mat-error *ngIf="cursosArray.controls[i].get('nombre')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+          <!-- </div>
+          <div class="row"> -->
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label for="fechaRealizacion">Fecha de Finalización</mat-label>
+              <input matInput [matDatepicker]="picker" [formControlName]="'fechaRealizacion'">
+              <mat-error *ngIf="cursosArray.controls[i].get('fechaRealizacion')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label for="centro">Centro Formador</mat-label>
+              <input matInput placeholder="Centro Formador" type="text" [formControlName]="'centro'" />
+              <mat-error *ngIf="cursosArray.controls[i].get('centro')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+          </div>
+          <!-- <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label>Frente del Certificado</mat-label>
+              <button mat-icon-button matPrefix (click)="front_input.click()">
+                <mat-icon>attach_file</mat-icon>
+              </button>
+              <input type="text" readonly matInput [formControlName]="'imageFront'"/>
+              <input type="file" hidden #front_input name="imageFront" id="imagen_certificado" (change)="uploadFile($event,i,'front')">
+              <button *ngIf="data.imagen_certificado_name" mat-icon-button matSuffix (click)="openFile()">
+                <mat-icon>open_in_new</mat-icon>
+              </button>
+            </mat-form-field>
+          </div> -->
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label for="descripcion">Descripción</mat-label>
+              <textarea matInput placeholder="Descripción" type="text" [formControlName]="'descripcion'"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-label class="col-md-4">Frente del Certificado</mat-label>
+            <app-load-image [formControlName]="'imageFront'" class="col-md-8"></app-load-image>
+          </div>
+
+        </div>
+      </mat-card-content>
+      <mat-card-actions *ngIf="!data">
+        <button mat-raised-button color="warn" (click)="removeCurso(i)">
+          Elimina
+        </button>
+        <button mat-raised-button color="principal" (click)="addCurso()">
+          Nuevo
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="warn" matDialogClose>Cancelar</button>
+  <button mat-raised-button color="accent" type="submit" [disabled]="cursoForm.invalid || cursoForm.pristine" (click)="onSaveCursos()">Guardar</button>
+</mat-dialog-actions>

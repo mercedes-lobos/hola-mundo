@@ -1,0 +1,15 @@
+<div class="load-image-container">
+  <div class="image-container" *ngIf="file; else placeholder" [ngClass]="{'box-shadow-load-image': !!file}"
+    [style.background-image]="'url(' + file + ')'">
+  </div>
+  <ng-template #placeholder>
+    <div class="image-container load-image-placeholder">
+    </div>
+  </ng-template>
+  <label for="load-image-input-file-{{componentId}}" *ngIf="url !='view'">
+    <div class="icon-wrapper">
+      <mat-icon class="icon" fontIcon="edit"></mat-icon>
+      <input type="file" id="load-image-input-file-{{componentId}}" accept="image/*" (change)="onFileChange($event)" />
+    </div>
+  </label>
+</div>

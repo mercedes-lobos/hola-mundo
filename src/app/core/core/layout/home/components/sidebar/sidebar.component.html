@@ -1,0 +1,119 @@
+<!-- ============================================================== -->
+<!-- sidebar -->
+<!-- ============================================================== -->
+<!--TODO: Adaptar visualización de perfil de usuario-->
+<!-- <div class="user-profile" style="background: url(assets/images/background/user-info.jpg) no-repeat;"> -->
+<!-- User profile image -->
+<!-- <div class="profile-img"> <img src="assets/images/users/profile.png" alt="user"> </div> -->
+<!-- User profile text-->
+<!-- ============================================================== -->
+<!-- Profile - style you can find in header.scss -->
+<!-- ============================================================== -->
+<!-- <div class="profile-text"><a [matMenuTriggerFor]="sdprofile" class=""> Markarn Doe <i
+        class="ti-angle-down font-12 m-l-5"></i></a></div> -->
+<!-- <mat-menu #sdprofile="matMenu" class="mymegamenu">
+    <button mat-menu-item>
+      <mat-icon>settings</mat-icon> Settings </button>
+    <button mat-menu-item>
+      <mat-icon>account_box</mat-icon> Profile </button>
+    <button mat-menu-item>
+      <mat-icon>notifications_off</mat-icon> Disable notifications </button>
+    <button mat-menu-item>
+      <mat-icon>exit_to_app</mat-icon> Sign Out </button>
+  </mat-menu>
+
+</div> -->
+<mat-nav-list appAccordion>
+  <!-- <mat-list-item appAccordionLink *ngFor="let menuitem of menuItems.getMenuitem()" routerLinkActive="selected" group="{{menuitem.state}}"> -->
+  <mat-list-item appAccordionLink routerLinkActive="selected">
+    <!-- <a class="" appAccordionToggle routerLink="/{{menuitem.state}}" *ngIf="menuitem.type === 'link'">
+      <mat-icon>{{ menuitem.icon }}</mat-icon>
+      <span>{{ menuitem.name }}</span>
+      <span fxFlex></span> -->
+    <!-- <span class="label label-{{ badge.type }}" *ngFor="let badge of menuitem.badge">{{ badge.value }}</span> -->
+    <!-- </a> -->
+    <!-- <button mat-menu-item appAccordionToggle routerLink="/{{menuitem.state}}" routerLinkActive="selected" *ngIf="menuitem.type === 'link'">
+      <mat-icon>{{ menuitem.icon }}</mat-icon>
+      <span>{{ menuitem.name }}</span>
+      <span fxFlex></span>
+    </button> -->
+    <!-- TODO: revisar menuItems dinámicos -->
+    <button mat-menu-item appAccordionToggle routerLink="/auth/login" routerLinkActive="selected">
+      <mat-icon>home</mat-icon>
+      <span>Inicio</span>
+      <span fxFlex></span>
+    </button>
+    <!-- TODO: evaluar si se elimina o no
+    <button mat-menu-item appAccordionToggle routerLink="/profesional" *ngIf="profesionalId === null">
+      <mat-icon>account_circle</mat-icon>
+      <span>Reempadronamiento</span>
+      <span fxFlex></span>
+    </button>
+    <div *ngIf="profesionalId !== null"> -->
+      <button mat-menu-item appAccordionToggle routerLink="/profesional/view/{{ profesionalId }}"
+        routerLinkActive="selected">
+        <mat-icon>account_circle</mat-icon>
+        <span>Perfil Profesional</span>
+        <span fxFlex></span>
+      </button>
+      <button mat-menu-item appAccordionToggle style="cursor:default">
+        <mat-icon> list_alt</mat-icon>
+        <span>Mi Currículum</span>
+        <span fxFlex></span>
+      </button>
+      <button mat-menu-item appAccordionToggle style="cursor:default">
+        <mat-icon>web</mat-icon>
+        <span>Trámites</span>
+        <span fxFlex></span>
+      </button>
+      <!-- Inicio de sub items de Trámites -->
+      <div>
+        <button mat-menu-item matSubheader appAccordionToggle class="my-1" (click)="downloadCEtica()">
+          Certificado de Ética
+        </button>
+        <button mat-menu-item matSubheader appAccordionToggle class="my-1" (click)="downloadCMatricula()">
+          Certificado de Matrícula
+        </button>
+        <button mat-menu-item matSubheader appAccordionToggle style="cursor:default"class="my-1">
+          Descargar CV
+        </button>
+      </div>
+      <!-- Fin de sub items de Trámites -->
+      <button mat-menu-item appAccordionToggle style="cursor:default">
+        <mat-icon>monetization_on</mat-icon>
+        <span>Pagos</span>
+        <span fxFlex></span>
+      </button>
+      <!-- Inicio de sub items de Pagos -->
+      <div>
+        <button mat-menu-item matSubheader appAccordionToggle routerLink="/pagos/registro-pagos" routerLinkActive="selected" class="my-1">
+          Registro de pago
+        </button>
+        <button mat-menu-item matSubheader appAccordionToggle routerLink="/pagos/pagos-adeudados" routerLinkActive="selected" class="my-1">
+          Pagos adeudados
+        </button>
+        <button mat-menu-item matSubheader appAccordionToggle class="my-1" (click)="downloadLibreDeuda()">
+          Libre deuda
+        </button>
+      </div>
+      <!-- Fin de sub items de Pagos -->
+      <button mat-menu-item appAccordionToggle routerLink="/cuenta" routerLinkActive="selected">
+        <mat-icon>account_box</mat-icon>
+        <span fxFlex></span>
+        <span>Cuenta</span>
+        <span fxFlex></span>
+      </button>
+      <button mat-menu-item appAccordionToggle routerLink="/documentos" routerLinkActive="selected">
+        <mat-icon>archive</mat-icon>
+        <span fxFlex></span>
+        <span> Documentos<br>Importantes</span>
+        <span fxFlex></span>
+      </button>
+      <button mat-menu-item appAccordionToggle style="cursor:default">
+        <mat-icon>help</mat-icon>
+        <span>Mesa de Ayuda</span>
+        <span fxFlex></span>
+      </button>
+    <!-- TODO: evaluar si se elimina o no </div> -->
+  </mat-list-item>
+</mat-nav-list>

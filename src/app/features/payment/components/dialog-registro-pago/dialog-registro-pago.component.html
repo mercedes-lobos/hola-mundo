@@ -1,0 +1,73 @@
+<h1 matDialogTitle>Registro de Pago</h1>
+<mat-dialog-content [formGroup]="registroPagoForm" (ngSubmit)="onSaveRegistroPago()"  *ngIf="registroPagoForm">
+  <div formArrayName="registroPago" *ngFor="let registroPago of registrosPagoArray.controls; let i=index">
+    <mat-card>
+      <mat-card-content>
+        <div [formGroupName]="i">
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-4">
+              <mat-label for="concepto">Periodo</mat-label>
+              <mat-select [formControlName]="'periodo'" placeholder="Periodo">
+                <mat-option value="" disabled>Seleccione</mat-option>
+                <mat-option *ngFor="let item of listPeriodos" [value]="item.id">{{item.periodo}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="registrosPagoArray.controls[i].get('periodo')?.hasError('required')">Este campo es <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-4">
+              <mat-label for="concepto">Concepto</mat-label>
+              <mat-select [formControlName]="'concepto'" placeholder="Concepto" (selectionChange)="onSelectChange()">
+                <mat-option value="" disabled>Seleccione</mat-option>
+                <mat-option *ngFor="let item of listConceptos" [value]="item.id">{{item.tipo}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="registrosPagoArray.controls[i].get('concepto')?.hasError('required')">Este campo es <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-4">
+              <mat-label for="mes_pago">Mes</mat-label>
+              <mat-select [formControlName]="'mes_pago'">
+                <mat-option *ngFor="let mes of listMesPago" [value]="mes.id">
+                  {{ mes.label }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="registrosPagoArray.controls[i].get('mes_pago')?.touched && registrosPagoArray.controls[i].get('mes_pago')?.hasError('required')">
+                Este campo es <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label for="fecha_registro">Fecha registro</mat-label>
+              <input matInput [matDatepicker]="picker" [formControlName]="'fecha_registro'" >
+              <mat-error *ngIf="registrosPagoArray.controls[i].get('fecha_registro')?.hasError('required')">Este campo es <strong>requerido.</strong></mat-error>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label for="monto">Monto</mat-label>
+              <input readonly matInput placeholder="Monto" type="number" [formControlName]="'monto'">
+              <mat-error *ngIf="registrosPagoArray.controls[i].get('monto')?.hasError('required')">Este campo es <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label for="observacion">Observación</mat-label>
+              <textarea matInput placeholder="Observación" type="text" [formControlName]="'observacion'"></textarea>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-label for="comprobante" class="col-md-4">Comprobante <span *ngIf="registrosPagoArray.controls[i].get('comprobante')?.touched && registrosPagoArray.controls[i].get('comprobante')?.hasError('required')">*</span></mat-label>
+            <app-load-image [formControlName]="'comprobante'" class="col-md-8"></app-load-image>
+          </div>
+          <div class="row">
+            <div class="col-md-4"></div>
+            <mat-error *ngIf="registrosPagoArray.controls[i].get('comprobante')?.touched && registrosPagoArray.controls[i].get('comprobante')?.hasError('required')" style="font-size: 12px;" class="px-3">
+              Este campo es <strong>requerido.</strong>
+            </mat-error>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</mat-dialog-content>
+<div mat-dialog-actions class="d-flex justify-content-end" *ngIf="registroPagoForm">
+  <button mat-raised-button color="warn" matDialogClose>Cancelar</button>
+  <button mat-raised-button color="accent" type="submit" (click)="onSaveRegistroPago()">Guardar</button>
+</div>

@@ -1,0 +1,92 @@
+<h1 matDialogTitle>Editar Especialidad</h1>
+<mat-dialog-content class="mat-typography" [formGroup]="especialidadForm" (ngSubmit)="onSaveEspecialidades()" novalidate  *ngIf="especialidadForm">
+  <div formArrayName="especialidad" *ngFor="let especialidad of especialidadesArray.controls ; let i=index">
+    <mat-card>
+      <mat-card-content>
+        <div [formGroupName]="i">
+
+          <div class="row">
+            <!-- <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label for="nombre">Especialidad/es</mat-label>
+              <input matInput placeholder="Especialidad" type="text" [formControlName]="'nombre'" />
+              <mat-error *ngIf="especialidadesArray.controls[i].get('nombre')?.hasError('required')">Este campo es <strong>requerido.</strong></mat-error>
+            </mat-form-field> -->
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label>Tipo de Especialidad</mat-label>
+              <input type="text" placeholder="Tipo de Especialidad" matInput [matAutocomplete]="auto"
+                [formControlName]="'tipoEspecialidad'">
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="updateTipoEspecialidadId(i, $event)" (closed)="true">
+                <mat-option *ngFor="let tipoEspecialidad of filteredTipoEspecialidad[i] | async" [value]="tipoEspecialidad.nombre">
+                  {{tipoEspecialidad.nombre}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="especialidadesArray.controls[i].get('tipoEspecialidad')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label for="centro">Centro Formador</mat-label>
+              <input matInput placeholder="Centro Formador" type="text" [formControlName]="'centro'" />
+              <mat-error *ngIf="especialidadesArray.controls[i].get('centro')?.hasError('required')">Este campo es <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label for="fechaEgreso">Fecha de Egreso</mat-label>
+              <input matInput [matDatepicker]="picker" [formControlName]="'fechaEgreso'">
+              <mat-error *ngIf="especialidadesArray.controls[i].get('fechaEgreso')?.hasError('required')">Este campo es <strong>requerido.</strong></mat-error>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label>Frente del Certificado</mat-label>
+              <button mat-icon-button matPrefix (click)="front_input.click()">
+                <mat-icon>attach_file</mat-icon>
+              </button>
+              <input type="text" readonly matInput [formControlName]="'imageFront'"/>
+              <input type="file" hidden #front_input name="imageFront" id="imagen_certificado_front" (change)="uploadFile($event,i,'front')">
+              <button *ngIf="data.imagen_certificado_front_name" mat-icon-button matSuffix (click)="openFile('front')">
+                <mat-icon>open_in_new</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label>Reverso del Certificado</mat-label>
+              <button mat-icon-button matPrefix (click)="back_input.click()">
+                <mat-icon>attach_file</mat-icon>
+              </button>
+              <input type="text" readonly matInput [formControlName]="'imageBack'"/>
+              <input type="file" hidden #back_input name="imageBack" id="imagen_certificado_back" (change)="uploadFile($event,i,'back')">
+              <button *ngIf="data.imagen_certificado_back_name" mat-icon-button matSuffix (click)="openFile('back')">
+                <mat-icon>open_in_new</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label for="descripcion">Descripción</mat-label>
+              <textarea matInput placeholder="Descripción" type="text" [formControlName]="'descripcion'"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions *ngIf="!data">
+        <button mat-raised-button color="warn" (click)="removeEspecialidad(i)">
+          Elimina
+        </button>
+        <button mat-raised-button color="principal" (click)="addEspecialidad()">
+          Nuevo
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-raised-button color="warn" matDialogClose>Cancelar</button>
+  <button mat-raised-button color="accent" type="submit" [disabled]="especialidadForm.invalid || especialidadForm.pristine" (click)="onSaveEspecialidades()">Guardar</button>
+</mat-dialog-actions>

@@ -1,0 +1,92 @@
+<h1 matDialogTitle>Editar Títulos</h1>
+<mat-dialog-content class="mat-typography" [formGroup]="tituloForm" *ngIf="tituloForm">
+  <div formArrayName="titulo" *ngFor="let titulo of titulosArray.controls ; let i=index">
+    <mat-card>
+      <mat-card-content>
+        <div [formGroupName]="i">
+
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label>Título Académico</mat-label>
+              <input type="text" placeholder="Título Académico" matInput [matAutocomplete]="auto2"
+                [formControlName]="'nombre'">
+              <mat-autocomplete #auto2="matAutocomplete">
+                <mat-option value="Médico">Médico</mat-option>
+                <mat-option value="Médico Cirujano">Médico Cirujano</mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="titulosArray.controls[i].get('nombre')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-6">
+              <mat-label for="fechaEgreso">Fecha de Egreso</mat-label>
+              <input matInput [matDatepicker]="picker" [formControlName]="'fechaEgreso'">
+              <mat-error *ngIf="titulosArray.controls[i].get('fechaEgreso')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label>Expedido por</mat-label>
+              <input type="text" placeholder="Expedido por" matInput [matAutocomplete]="auto"
+                [formControlName]="'institucion'">
+              <mat-autocomplete #auto="matAutocomplete" (optionSelected)="updateInstitucionId(i, $event)">
+                <mat-option *ngFor="let institucion of filteredInstitucion[i] | async" [value]="institucion.nombre">
+                  {{institucion.nombre}}
+                </mat-option>
+              </mat-autocomplete>
+              <mat-error *ngIf="titulosArray.controls[i].get('institucion')?.hasError('required')">Este campo es
+                <strong>requerido.</strong></mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-label class="col-md-4">Frente del Título</mat-label>
+            <app-load-image [formControlName]="'imageFront'" class="col-md-8"></app-load-image>
+            <!-- <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label>Frente del Título</mat-label>
+              <button mat-icon-button matPrefix (click)="front_input.click()">
+                <mat-icon>attach_file</mat-icon>
+              </button>
+              <input type="text" readonly matInput [formControlName]="'imageFront'"/>
+              <input type="file" hidden #front_input name="imageFront" id="image_front" (change)="uploadFile($event,i,'front')">
+              <button *ngIf="hasImageFront" mat-icon-button matSuffix (click)="openFile('front')">
+                <mat-icon>open_in_new</mat-icon>
+              </button>
+            </mat-form-field> -->
+          </div>
+          <div class="row">
+            <mat-label class="col-md-4">Reverso del Título</mat-label>
+            <app-load-image [formControlName]="'imageBack'" class="col-md-8"></app-load-image>
+            <!-- <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label>Reverso del Título</mat-label>
+              <button mat-icon-button matPrefix (click)="back_input.click()">
+                <mat-icon>attach_file</mat-icon>
+              </button>
+              <input type="text" readonly matInput [formControlName]="'imageBack'"/>
+              <input type="file" hidden #back_input name="imageBack" id="image_back" (change)="uploadFile($event,i,'back')">
+              <button *ngIf="hasImageBack" mat-icon-button matSuffix (click)="openFile('back')">
+                <mat-icon>open_in_new</mat-icon>
+              </button>
+            </mat-form-field> -->
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions *ngIf="!data">
+        <button mat-raised-button color="warn" (click)="removeTitulo(i)">
+          Elimina
+        </button>
+        <button mat-raised-button color="principal" (click)="addTitulo()">Nuevo
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="center" *ngIf="tituloForm">
+  <button mat-raised-button color="warn" matDialogClose>Cancelar</button>
+  <button mat-raised-button color="accent" type="submit" (click)="onSaveTitulos()"
+    [disabled]="tituloForm.invalid || tituloForm.pristine ">Guardar</button>
+</mat-dialog-actions>

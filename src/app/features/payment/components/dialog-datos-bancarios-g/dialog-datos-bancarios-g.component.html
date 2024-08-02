@@ -1,0 +1,26 @@
+<div class="dialog-title">
+  <h2 matDialogTitle>Datos bancarios</h2>
+  <button mat-icon-button aria-label="close dialog" style="margin: 0 12px;" matDialogClose>
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<mat-dialog-content>
+  <div>
+    <mat-card class="mb-1">
+      <mat-card-content>
+        <div class="text-left text-dark">
+          <p><b>Banco Galicia</b></p>
+          <p><b>Tipo de cuenta:</b> Cuenta Corriente</p>
+          <p><b>Número de Cuenta:</b> 511831775</p>
+          <p><b>Número CUIT:</b> 30709364363</p>
+          <p><b>Número de CBU:</b> 0070177420000005118353</p>
+          <p><b>Alias:</b> NOGAL.REPTIL.PEZ</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+    <div mat-dialog-actions class="d-flex justify-content-end mb-4">
+      <button mat-raised-button color="accent" type="submit" class="text-light" (click)="copyCBU()">Copiar CBU</button>
+      <button mat-raised-button color="accent" type="submit" class="text-light" (click)="copyDatosBancarios()">Copiar todos los datos</button>
+    </div>
+  </div>
+</mat-dialog-content>

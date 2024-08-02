@@ -1,0 +1,31 @@
+mat-card-content > .row {
+  gap: 1rem;
+}
+
+mat-card {
+  &.document {
+    width: 250px;
+  }
+
+  .file-icon {
+    width: auto;
+    height: auto;
+    font-size: 80px;
+  }
+
+  small {
+    color: rgba(0, 0, 0, 0.87);
+    padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+  }
+}
+
+// .mdc-list-item {
+//   cursor: default;
+
+//   &__end {
+//     margin: 0;
+//   }
+// }

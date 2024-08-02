@@ -1,0 +1,124 @@
+<div fxLayout="row wrap" fxLayoutAlign="center center" #cardLogin>
+  <div fxFlex="100">
+    <mat-card appearance="outlined" class="mb-0">
+      <mat-card-content
+        class="card-content-login d-flex flex-column justify-content-center align-items-center text-right"
+        style="height: calc(100vh - 128px);">
+        <form *ngIf="!isLoggedIn" name="form" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+          <h5 class="m-25 text-center">Inicio de sesión de los miembros</h5>
+
+          <mat-form-field appearance="outline">
+            <mat-label for="username">Usuario</mat-label>
+            <input matInput type="text" class="form-control" name="username" [(ngModel)]="form.username" required
+              #username="ngModel" [ngClass]="{ 'is-invalid': f.submitted && username.errors }" />
+            <div *ngIf="username.errors && f.submitted" class="invalid-feedback">
+              Este campo es <strong>requerido.</strong>
+            </div>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label for="password">Contraseña</mat-label>
+            <input matInput type="password" class="form-control" name="password" [(ngModel)]="form.password" required
+              minlength="3" #password="ngModel" [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+              [type]="hide ? 'password' : 'text'" />
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <div *ngIf="password.errors && f.submitted" class="invalid-feedback">
+              <div *ngIf="password.errors['required']">Este campo es <strong>requerido.</strong></div>
+              <div *ngIf="password.errors['minlength']">
+                La contraseña debe tener al menos 3 caracteres
+              </div>
+            </div>
+          </mat-form-field>
+          <button mat-raised-button color="primary" type="submit" (click)="onSubmit()">
+            Iniciar sesión
+          </button>
+
+          <!-- <mat-form-field>
+            <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger" role="alert">
+              Login failed: {{ errorMessage }}
+            </div>
+          </mat-form-field> -->
+        </form>
+
+        <div class="alert alert-success" *ngIf="isLoggedIn">
+          <!-- Logged in as {{ roles }}. -->
+          Bienvenido {{ user.username }}
+        </div>
+      </mat-card-content>
+      <mat-card-footer>
+        <!-- <div class="alert alert-success" *ngIf="isLoggedIn">
+          Logged in as {{ roles }}.
+        </div> -->
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>
+
+<!-- <div class="col-md-12">
+  <div class="card card-container">
+    <img
+      id="profile-img"
+      src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+      class="profile-img-card"
+    />
+    <form
+      *ngIf="!isLoggedIn"
+      name="form"
+      (ngSubmit)="f.form.valid && onSubmit()"
+      #f="ngForm"
+      novalidate
+    >
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          name="username"
+          [(ngModel)]="form.username"
+          required
+          #username="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && username.errors }"
+        />
+        <div *ngIf="username.errors && f.submitted" class="invalid-feedback">
+          Username is required!
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          name="password"
+          [(ngModel)]="form.password"
+          required
+          minlength="6"
+          #password="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && password.errors }"
+        />
+        <div *ngIf="password.errors && f.submitted" class="invalid-feedback">
+          <div *ngIf="password.errors['required']">Password is required</div>
+          <div *ngIf="password.errors['minlength']">
+            Password must be at least 6 characters
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary btn-block">
+          Login
+        </button>
+      </div>
+      <div class="form-group">
+        <div *ngIf="f.submitted && isLoginFailed" class="alert alert-danger" role="alert">
+          Login failed: {{ errorMessage }}
+        </div>
+      </div>
+    </form>
+
+    <div class="alert alert-success" *ngIf="isLoggedIn">
+      Logged in as {{ roles }}.
+    </div>
+  </div>
+</div> -->
